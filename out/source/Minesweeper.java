@@ -1,11 +1,29 @@
-import de.bezier.guido.*;
+import processing.core.*; 
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
+
+import de.bezier.guido.*; 
+
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
+
+public class Minesweeper extends PApplet {
+
+
 private MSButton[][] buttons; //2d array of minesweeper buttons
 
 public final static int NUM_ROWS = 20;
 public final static int NUM_COLS = 20;
 
-void setup () {
-    size(400, 400);
+public void setup () {
+    
     textAlign(CENTER,CENTER);
     
     // make the manager
@@ -63,6 +81,7 @@ public class MSButton {
         for(int r = 0; r < NUM_ROWS; r++)
             for(int c = 0; c < NUM_COLS; c++)
                 if(buttons[r][c].isClicked());
+                    buttons[r][c].clicked = false;
     }
 
     public boolean isValid(int r, int c){
@@ -185,3 +204,13 @@ public class MSButton {
     }
 }
 */
+  public void settings() {  size(400, 400); }
+  static public void main(String[] passedArgs) {
+    String[] appletArgs = new String[] { "Minesweeper" };
+    if (passedArgs != null) {
+      PApplet.main(concat(appletArgs, passedArgs));
+    } else {
+      PApplet.main(appletArgs);
+    }
+  }
+}
