@@ -4,6 +4,8 @@ private MSButton[][] buttons; //2d array of minesweeper buttons
 public final static int NUM_ROWS = 20;
 public final static int NUM_COLS = 20;
 
+boolean value = false;
+
 void setup () {
     size(400, 400);
     textAlign(CENTER,CENTER);
@@ -27,6 +29,8 @@ public class MSButton {
     private float x,y, width, height;
     private boolean populated;
     private String label;
+    private int[] markedForDeath;
+    private int[] markedForLife;
     
     public MSButton ( int rr, int cc ) {
         width = 400/NUM_COLS;
@@ -37,6 +41,8 @@ public class MSButton {
         y = r*height;
         label = "";
         populated = false;
+        for(int i = 0 ; i < NUM_ROWS*2; i++)
+            
         Interactive.add( this ); // register it with the manager
     }
 
@@ -59,12 +65,14 @@ public class MSButton {
 
         rect(x, y, width, height);
         fill(0);
-
-        for(int r = 0; r < NUM_ROWS; r++)
-            for(int c = 0; c < NUM_COLS; c++)
-                if(buttons[r][c].isPopulated() && countNeighborPopulated(r, c) > 4);
-                    buttons[r][c].populated = false;
-                else
+        if(value==true) {
+            for(int r = 0; r < NUM_ROWS; r++)
+                for(int c = 0; c < NUM_COLS; c++)
+                    if(!buttons[r][c].isPopulated() && countNeighborPopulated(r, c) == 3) {
+                        buttons[r][c].populated = true;
+                    }
+            value = false;
+        }
     }
 }
 
@@ -84,4 +92,11 @@ public boolean isValid(int r, int c){
         return true;
     else
         return false;
+}
+
+void keyPressed() {
+  if (value == false)
+    value = true;
+  else
+    value = false;
 }

@@ -22,6 +22,8 @@ private MSButton[][] buttons; //2d array of minesweeper buttons
 public final static int NUM_ROWS = 20;
 public final static int NUM_COLS = 20;
 
+boolean value = false;
+
 public void setup () {
     
     textAlign(CENTER,CENTER);
@@ -77,11 +79,15 @@ public class MSButton {
 
         rect(x, y, width, height);
         fill(0);
-
-        for(int r = 0; r < NUM_ROWS; r++)
-            for(int c = 0; c < NUM_COLS; c++)
-                if(buttons[r][c].isPopulated() && countNeighborPopulated(r, c) > 4);
-                    buttons[r][c].populated = false;
+        if(value==true) {
+            for(int r = 0; r < NUM_ROWS; r++)
+                for(int c = 0; c < NUM_COLS; c++)
+                    if(!buttons[r][c].isPopulated() && countNeighborPopulated(r, c) == 3) {
+                        buttons[r][c].populated = true;
+                        r+=2;
+                    }
+            value = false;
+        }
     }
 }
 
@@ -101,6 +107,13 @@ public boolean isValid(int r, int c){
         return true;
     else
         return false;
+}
+
+public void keyPressed() {
+  if (value == false)
+    value = true;
+  else
+    value = false;
 }
   public void settings() {  size(400, 400); }
   static public void main(String[] passedArgs) {
